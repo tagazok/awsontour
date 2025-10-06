@@ -1,0 +1,249 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { imageConfigs } from '../utils/imageOptimization';
+
+interface Props {
+  trip: CollectionEntry<'trips'>;
+}
+
+const { trip } = Astro.props;
+const { data } = trip;
+
+// Format dates for display
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  });
+};
+
+// Calculate trip duration in days
+const duration = Math.ceil((data.endDate.getTime() - data.startDate.getTime()) / (1000 * 60 * 60 * 24));
+
+// Determine if this is the current trip
+const now = new Date();
+const isCurrent = data.status === 'current' || (data.startDate <= now && data.endDate >= now);
+---
+
+<article class={`trip-card ${isCurrent ? 'current-trip' : ''}`}>
+  <a href={`/trips/${trip.slug}`} class="trip-card__link">
+    <div class="trip-card__image-container">
+      <Image
+        src={data.headerImage}
+        alt={`${data.title} header image`}
+        width={400}
+        height={250}
+        {...imageConfigs.tripCard}
+        class="trip-card__image"
+      />
+      {isCurrent && (
+        <div class="trip-card__current-badge">
+          Ongoing
+        </div>
+      )}
+    </div>
+    
+    <div class="trip-card__content">
+      <h3 class="trip-card__title">{data.title}</h3>
+      <p class="trip-card__description">{data.description}</p>
+      
+      <div class="trip-card__dates">
+        <time datetime={data.startDate.toISOString()}>
+          {formatDate(data.startDate)}
+        </time>
+        <span class="trip-card__date-separator">—</span>
+        <time datetime={data.endDate.toISOString()}>
+          {formatDate(data.endDate)}
+        </time>
+      </div>
+      
+      <div class="trip-card__stats">
+        <div class="trip-card__stat">
+          <span class="trip-card__stat-value">{data.stats.kilometers}</span>
+          <span class="trip-card__stat-label">km</span>
+        </div>
+        <div class="trip-card__stat">
+          <span class="trip-card__stat-value">{duration}</span>
+          <span class="trip-card__stat-label">days</span>
+        </div>
+        <div class="trip-card__stat">
+          <span class="trip-card__stat-value">{data.stats.cities}</span>
+          <span class="trip-card__stat-label">cities</span>
+        </div>
+        <div class="trip-card__stat">
+          <span class="trip-card__stat-value">{data.stats.activities}</span>
+          <span class="trip-card__stat-label">activities</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .trip-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+
+  .trip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .trip-card.current-trip {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2), 0 2px 4px -1px rgba(59, 130, 246, 0.1);
+  }
+
+  .trip-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .trip-card__image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .trip-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  .trip-card:hover .trip-card__image {
+    transform: scale(1.05);
+  }
+
+  .trip-card__current-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #3b82f6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .trip-card__content {
+    padding: 1.5rem;
+  }
+
+  .trip-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+  }
+
+  .trip-card__description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .trip-card__dates {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+  }
+
+  .trip-card__date-separator {
+    color: #d1d5db;
+  }
+
+  .trip-card__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .trip-card__stat {
+    text-align: center;
+  }
+
+  .trip-card__stat-value {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1;
+  }
+
+  .trip-card__stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  /* Performance optimizations */
+  .trip-card__image {
+    transition: transform 0.2s ease, opacity 0.3s ease;
+  }
+  
+  .trip-card__image.loading {
+    opacity: 0.8;
+    filter: blur(1px);
+  }
+  
+  .trip-card__image.loaded {
+    opacity: 1;
+    filter: none;
+  }
+  
+  /* Slow connection optimizations */
+  .slow-connection .trip-card__image {
+    height: 150px;
+  }
+  
+  .slow-connection .trip-card__content {
+    padding: 1rem;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 640px) {
+    .trip-card__content {
+      padding: 1rem;
+    }
+
+    .trip-card__stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .trip-card__stat-value {
+      font-size: 1rem;
+    }
+
+    .trip-card__stat-label {
+      font-size: 0.625rem;
+    }
+  }
+</style>

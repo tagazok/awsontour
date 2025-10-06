@@ -1,0 +1,237 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import TripLayout from '../../layouts/TripLayout.astro';
+import TripHeader from '../../components/TripHeader.astro';
+import TripStats from '../../components/TripStats.astro';
+import TripMap from '../../components/TripMap.astro';
+import TripGallery from '../../components/TripGallery.astro';
+import ActivityCard from '../../components/ActivityCard.astro';
+import PersonCard from '../../components/PersonCard.astro';
+
+export async function getStaticPaths() {
+  const trips = await getCollection('trips');
+  
+  return trips.map((trip) => ({
+    params: { slug: trip.slug },
+    props: { trip },
+  }));
+}
+
+type Props = {
+  trip: CollectionEntry<'trips'>;
+};
+
+const { trip } = Astro.props;
+
+// Handle potential missing trip (this shouldn't happen with getStaticPaths, but good for type safety)
+if (!trip) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await trip.render();
+const { data } = trip;
+---
+
+<TripLayout 
+  title={data.title} 
+  description={data.description}
+  image={data.headerImage}
+  tripSlug={trip.slug}
+>
+  <!-- Trip Header Section -->
+  <TripHeader 
+    slot="header"
+    title={data.title}
+    description={data.description}
+    headerImage={data.headerImage}
+  />
+
+  <!-- Trip Stats Section -->
+  <TripStats 
+    slot="stats"
+    stats={data.stats}
+  />
+
+  <!-- Map Section -->
+  {data.route && data.route.coordinates && data.route.coordinates.length > 0 ? (
+    <TripMap 
+      slot="map"
+      route={data.route}
+      title={`${data.title} Route`}
+    />
+  ) : (
+    <div slot="map" class="map-fallback">
+      <div class="map-fallback-content">
+        <h2>Trip Route</h2>
+        <p>Route information not available for this trip.</p>
+      </div>
+    </div>
+  )}
+
+  <!-- Trip Gallery Section -->
+  <TripGallery 
+    slot="gallery"
+    gallery={data.gallery}
+    tripTitle={data.title}
+  />
+
+  <!-- Trip Activities Section -->
+  <ActivityCard 
+    slot="activities"
+    activities={data.activities}
+  />
+
+  <!-- Trip Participants Section -->
+  <PersonCard 
+    slot="participants"
+    participants={data.participants}
+  />
+
+  <!-- Additional Content (Markdown) -->
+  <div class="trip-markdown-content">
+    <h2>About This Trip</h2>
+    <Content />
+  </div>
+</TripLayout>
+
+<style>
+  /* Map Fallback Styles */
+  .map-fallback {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .map-fallback-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #495057;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .map-fallback-content > p {
+    color: #6c757d;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Markdown Content Styles */
+  .trip-markdown-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    line-height: 1.7;
+  }
+
+  .trip-markdown-content h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+  }
+
+  .trip-markdown-content :global(h1),
+  .trip-markdown-content :global(h2),
+  .trip-markdown-content :global(h3) {
+    color: #1f2937;
+    font-weight: 700;
+    margin: 2rem 0 1rem 0;
+  }
+
+  .trip-markdown-content :global(h1) {
+    font-size: 2rem;
+  }
+
+  .trip-markdown-content :global(h2) {
+    font-size: 1.5rem;
+  }
+
+  .trip-markdown-content :global(h3) {
+    font-size: 1.25rem;
+  }
+
+  .trip-markdown-content :global(p) {
+    margin: 1rem 0;
+    color: #374151;
+  }
+
+  .trip-markdown-content :global(ul),
+  .trip-markdown-content :global(ol) {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    color: #374151;
+  }
+
+  .trip-markdown-content :global(li) {
+    margin: 0.5rem 0;
+  }
+
+  .trip-markdown-content :global(blockquote) {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+
+  .trip-markdown-content :global(code) {
+    background: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: #374151;
+  }
+
+  .trip-markdown-content :global(pre) {
+    background: #1f2937;
+    color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .trip-markdown-content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .map-fallback {
+      padding: 1.5rem 1rem;
+      margin: 1rem 0;
+    }
+
+    .map-fallback-content h2 {
+      font-size: 1.25rem;
+    }
+
+    .trip-markdown-content {
+      padding: 1.5rem 0.75rem;
+    }
+
+    .trip-markdown-content h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .map-fallback {
+      padding: 1rem 0.75rem;
+    }
+
+    .trip-markdown-content {
+      padding: 1rem 0.5rem;
+    }
+
+    .trip-markdown-content h2 {
+      font-size: 1.375rem;
+    }
+  }
+</style>

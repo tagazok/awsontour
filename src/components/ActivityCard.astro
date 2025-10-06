@@ -1,0 +1,255 @@
+---
+import type { TripActivity } from '../types/trip';
+
+interface Props {
+  activities: TripActivity[];
+}
+
+const { activities } = Astro.props;
+
+// Format date for display
+const formatDate = (date: Date | undefined): string => {
+  if (!date) return '';
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(date);
+};
+---
+
+<section class="trip-activities">
+  <h2 class="activities-title">Activities & Events</h2>
+  <div class="activities-grid">
+    {activities.map((activity) => (
+      <div class={`activity-card ${activity.isPublic ? 'public' : 'private'}`}>
+        <div class="activity-header">
+          <h3 class="activity-name">{activity.name}</h3>
+          {activity.isPublic && (
+            <span class="activity-badge public-badge">Public Event</span>
+          )}
+          {!activity.isPublic && (
+            <span class="activity-badge private-badge">Private</span>
+          )}
+        </div>
+        
+        {activity.date && (
+          <div class="activity-date">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>{formatDate(activity.date)}</span>
+          </div>
+        )}
+
+        <p class="activity-description">{activity.description}</p>
+
+        {activity.isPublic && activity.registrationUrl && (
+          <div class="activity-actions">
+            <a 
+              href={activity.registrationUrl} 
+              class="registration-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Register for ${activity.name}`}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15,3 21,3 21,9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              Register Now
+            </a>
+          </div>
+        )}
+
+        {activity.isPublic && !activity.registrationUrl && (
+          <div class="activity-actions">
+            <span class="no-registration">No registration required</span>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .trip-activities {
+    padding: 3rem 0;
+    background: #f8f9fa;
+  }
+
+  .activities-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 0 2rem 0;
+    color: #2c3e50;
+  }
+
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .activity-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 4px solid transparent;
+  }
+
+  .activity-card.public {
+    border-left-color: #27ae60;
+  }
+
+  .activity-card.private {
+    border-left-color: #95a5a6;
+  }
+
+  .activity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .activity-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2c3e50;
+    line-height: 1.3;
+  }
+
+  .activity-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .public-badge {
+    background: #d5f4e6;
+    color: #27ae60;
+  }
+
+  .private-badge {
+    background: #ecf0f1;
+    color: #7f8c8d;
+  }
+
+  .activity-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #7f8c8d;
+    font-size: 0.875rem;
+  }
+
+  .activity-description {
+    color: #5a6c7d;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .activity-actions {
+    margin-top: auto;
+  }
+
+  .registration-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .registration-button:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+  }
+
+  .registration-button:active {
+    transform: translateY(0);
+  }
+
+  .no-registration {
+    color: #7f8c8d;
+    font-size: 0.875rem;
+    font-style: italic;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .trip-activities {
+      padding: 2rem 0;
+    }
+
+    .activities-title {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .activities-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .activity-card {
+      padding: 1.25rem;
+    }
+
+    .activity-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .activity-name {
+      font-size: 1.125rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .activities-grid {
+      padding: 0 0.5rem;
+    }
+
+    .activity-card {
+      padding: 1rem;
+    }
+
+    .registration-button {
+      width: 100%;
+      justify-content: center;
+      padding: 1rem;
+    }
+  }
+</style>

@@ -1,11 +1,384 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TripCard from '../components/TripCard.astro';
+import { generatePreloadLinks } from '../utils/imageOptimization';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Get all trips and sort them by start date (most recent first)
+const allTrips = await getCollection('trips');
+const sortedTrips = allTrips.sort((a, b) => 
+  new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+);
+
+// Find current trip (if any)
+const now = new Date();
+const currentTrip = sortedTrips.find(trip => 
+  trip.data.status === 'current' || 
+  (trip.data.startDate <= now && trip.data.endDate >= now)
+);
+
+// Filter trips by status for organized display
+const completedTrips = sortedTrips.filter(trip => trip.data.status === 'completed');
+const plannedTrips = sortedTrips.filter(trip => trip.data.status === 'planned');
+
+// Prepare critical images for preloading (first 3 trips)
+const criticalImages = sortedTrips.slice(0, 3).map(trip => ({
+  src: trip.data.headerImage,
+  type: 'important' as const
+}));
+
+// Add current trip image if it exists and isn't already in the first 3
+if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.headerImage)) {
+  criticalImages.unshift({
+    src: currentTrip.data.headerImage,
+    type: 'hero' as const
+  });
+}
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Travel Showcase" description="Explore my travel adventures and journeys around the world">
+  <!-- Preload critical images -->
+  <Fragment slot="head">
+    {criticalImages.map(({ src, type }) => (
+      <link rel="preload" as="image" href={src} />
+    ))}
+  </Fragment>
+  <main class="home-page">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Travel Adventures</h1>
+        <p class="hero__subtitle">
+          Exploring the world one journey at a time. Discover my travel experiences, 
+          from epic road trips to cultural immersions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Current Trip Section -->
+    {currentTrip && (
+      <section class="current-trip-section">
+        <div class="container">
+          <h2 class="section-title">Currently Traveling</h2>
+          <div class="current-trip-highlight">
+            <TripCard trip={currentTrip} />
+            <div class="current-trip-info">
+              <h3>Follow My Current Adventure</h3>
+              <p>I'm currently on an amazing journey! Check out the details and follow along with my latest travel experience.</p>
+              <a href={`/trips/${currentTrip.slug}`} class="cta-button">
+                View Trip
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- All Trips Section -->
+    <section class="trips-section">
+      <div class="container">
+        <h2 class="section-title">All Adventures</h2>
+        
+        <!-- Filter/Sort Controls -->
+        <div class="trip-controls">
+          <div class="trip-filters">
+            <button class="filter-btn active" data-filter="all">All Trips</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="planned">Planned</button>
+          </div>
+          <div class="trip-sort">
+            <select class="sort-select" id="trip-sort">
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="title">Alphabetical</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Trip Grid -->
+        <div class="trip-grid" id="trip-grid">
+          {sortedTrips.map((trip) => (
+            <div class="trip-grid-item" data-status={trip.data.status} data-date={trip.data.startDate.toISOString()} data-title={trip.data.title}>
+              <TripCard trip={trip} />
+            </div>
+          ))}
+        </div>
+
+        {sortedTrips.length === 0 && (
+          <div class="empty-state">
+            <h3>No trips yet</h3>
+            <p>Check back soon for exciting travel adventures!</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .home-page {
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .hero__content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hero__title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+  }
+
+  .hero__subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Current Trip Section */
+  .current-trip-section {
+    padding: 3rem 0;
+    background: #f8fafc;
+  }
+
+  .current-trip-highlight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .current-trip-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 1rem 0;
+  }
+
+  .current-trip-info p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background: #2563eb;
+  }
+
+  /* Trips Section */
+  .trips-section {
+    padding: 3rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 2rem 0;
+    text-align: center;
+  }
+
+  /* Trip Controls */
+  .trip-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .trip-filters {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #6b7280;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .sort-select {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+    color: #6b7280;
+    cursor: pointer;
+  }
+
+  /* Trip Grid */
+  .trip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .trip-grid-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .trip-grid-item.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 0;
+    color: #6b7280;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero__title {
+      font-size: 2rem;
+    }
+
+    .hero__subtitle {
+      font-size: 1rem;
+    }
+
+    .current-trip-highlight {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .trip-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .trip-filters {
+      justify-content: center;
+    }
+
+    .trip-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 2rem 0;
+    }
+
+    .current-trip-section,
+    .trips-section {
+      padding: 2rem 0;
+    }
+
+    .filter-btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>
+
+<script>
+  // Client-side filtering and sorting functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const sortSelect = document.getElementById('trip-sort') as HTMLSelectElement;
+    const tripGrid = document.getElementById('trip-grid');
+    const tripItems = document.querySelectorAll('.trip-grid-item') as NodeListOf<HTMLElement>;
+
+    // Filter functionality
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+        
+        tripItems.forEach(item => {
+          const status = item.getAttribute('data-status');
+          const shouldShow = filter === 'all' || status === filter;
+          
+          if (shouldShow) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Sort functionality
+    sortSelect.addEventListener('change', () => {
+      const sortValue = sortSelect.value;
+      const itemsArray = Array.from(tripItems);
+      
+      itemsArray.sort((a, b) => {
+        switch (sortValue) {
+          case 'date-asc':
+            return new Date(a.getAttribute('data-date')!).getTime() - 
+                   new Date(b.getAttribute('data-date')!).getTime();
+          case 'date-desc':
+            return new Date(b.getAttribute('data-date')!).getTime() - 
+                   new Date(a.getAttribute('data-date')!).getTime();
+          case 'title':
+            return a.getAttribute('data-title')!.localeCompare(b.getAttribute('data-title')!);
+          default:
+            return 0;
+        }
+      });
+
+      // Reorder DOM elements
+      itemsArray.forEach(item => {
+        tripGrid?.appendChild(item);
+      });
+    });
+  });
+</script>

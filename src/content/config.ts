@@ -1,0 +1,50 @@
+import { defineCollection, z } from 'astro:content';
+
+const tripSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  status: z.enum(['completed', 'current', 'planned']),
+  headerImage: z.string(),
+  stats: z.object({
+    kilometers: z.number(),
+    activities: z.number(),
+    peopleMet: z.number(),
+    cities: z.number(),
+    days: z.number()
+  }),
+  route: z.object({
+    coordinates: z.array(z.tuple([z.number(), z.number()])),
+    waypoints: z.array(z.object({
+      name: z.string(),
+      coordinates: z.tuple([z.number(), z.number()])
+    }))
+  }),
+  gallery: z.array(z.object({
+    image: z.string(),
+    title: z.string().optional(),
+    description: z.string().optional()
+  })),
+  activities: z.array(z.object({
+    name: z.string(),
+    description: z.string(),
+    date: z.date().optional(),
+    registrationUrl: z.string().url().optional(),
+    isPublic: z.boolean().default(false)
+  })),
+  participants: z.array(z.object({
+    name: z.string(),
+    photo: z.string().optional(),
+    role: z.string().optional()
+  }))
+});
+
+const trips = defineCollection({
+  type: 'content',
+  schema: tripSchema,
+});
+
+export const collections = {
+  trips,
+};

@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import { imageConfigs } from '../utils/imageOptimization';
+
+interface Props {
+  title: string;
+  description: string;
+  headerImage: string;
+}
+
+const { title, description, headerImage } = Astro.props;
+---
+
+<section class="trip-header">
+  <div class="header-image-container">
+    <Image
+      src={headerImage}
+      alt={`Header image for ${title}`}
+      class="header-image"
+      width={1200}
+      height={600}
+      {...imageConfigs.hero}
+    />
+    <div class="header-overlay">
+      <div class="header-content">
+        <h1 class="trip-title">{title}</h1>
+        <p class="trip-description">{description}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trip-header {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 600px;
+    overflow: hidden;
+  }
+
+  .header-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .header-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+  }
+
+  .header-content {
+    max-width: 800px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .trip-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0 0 1rem 0;
+    line-height: 1.1;
+  }
+
+  .trip-description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.95;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .trip-header {
+      height: 50vh;
+      min-height: 300px;
+    }
+
+    .header-overlay {
+      padding: 1.5rem;
+    }
+
+    .trip-title {
+      font-size: 2.25rem;
+    }
+
+    .trip-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trip-header {
+      height: 40vh;
+      min-height: 250px;
+    }
+
+    .header-overlay {
+      padding: 1rem;
+    }
+
+    .trip-title {
+      font-size: 1.875rem;
+    }
+
+    .trip-description {
+      font-size: 1rem;
+    }
+  }
+</style>

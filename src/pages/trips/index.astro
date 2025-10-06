@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TripCard from '../../components/TripCard.astro';
+
+// Get all trips and sort them by start date (most recent first)
+const allTrips = await getCollection('trips');
+const sortedTrips = allTrips.sort((a, b) => 
+  new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+);
+---
+
+<BaseLayout title="All Trips" description="Browse all my travel adventures and journeys">
+  <div class="trips-index-page">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="container">
+        <h1 class="page-title">All Trips</h1>
+        <p class="page-description">
+          Explore all my travel adventures, from completed journeys to upcoming expeditions.
+        </p>
+      </div>
+    </header>
+
+    <!-- Trips Grid -->
+    <main class="trips-main">
+      <div class="container">
+        <div class="trip-grid">
+          {sortedTrips.map((trip) => (
+            <TripCard trip={trip} />
+          ))}
+        </div>
+
+        {sortedTrips.length === 0 && (
+          <div class="empty-state">
+            <h2>No trips yet</h2>
+            <p>Check back soon for exciting travel adventures!</p>
+            <a href="/" class="back-home-btn">Back to Home</a>
+          </div>
+        )}
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .trips-index-page {
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+  }
+
+  .page-description {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Main Content */
+  .trips-main {
+    padding: 3rem 0;
+  }
+
+  /* Trip Grid */
+  .trip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 0;
+    color: #6b7280;
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .empty-state p {
+    font-size: 1rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .back-home-btn {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .back-home-btn:hover {
+    background: #2563eb;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 2rem 0;
+    }
+
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .page-description {
+      font-size: 1rem;
+    }
+
+    .trips-main {
+      padding: 2rem 0;
+    }
+
+    .trip-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-header {
+      padding: 1.5rem 0;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+    }
+
+    .container {
+      padding: 0 0.75rem;
+    }
+  }
+</style>

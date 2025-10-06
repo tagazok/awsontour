@@ -7,13 +7,13 @@ const tripSchema = z.object({
   endDate: z.date(),
   status: z.enum(['completed', 'current', 'planned']),
   headerImage: z.string(),
-  stats: z.object({
-    kilometers: z.number(),
-    activities: z.number(),
-    peopleMet: z.number(),
-    cities: z.number(),
-    days: z.number()
-  }),
+  stats: z.array(z.object({
+    id: z.string(),
+    value: z.number(),
+    label: z.string(),
+    icon: z.string(),
+    unit: z.string().optional()
+  })),
   route: z.object({
     coordinates: z.array(z.tuple([z.number(), z.number()])),
     waypoints: z.array(z.object({

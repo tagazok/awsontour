@@ -9,13 +9,13 @@ export const tripSchema = z.object({
   endDate: z.date(),
   status: z.enum(['completed', 'current', 'planned']),
   headerImage: z.string().min(1, "Header image is required"),
-  stats: z.object({
-    kilometers: z.number().min(0, "Kilometers must be positive"),
-    activities: z.number().min(0, "Activities must be positive"),
-    peopleMet: z.number().min(0, "People met must be positive"),
-    cities: z.number().min(0, "Cities must be positive"),
-    days: z.number().min(1, "Days must be at least 1")
-  }),
+  stats: z.array(z.object({
+    id: z.string().min(1, "Stat id is required"),
+    value: z.number().min(0, "Stat value must be positive"),
+    label: z.string().min(1, "Stat label is required"),
+    icon: z.string().min(1, "Stat icon is required"),
+    unit: z.string().optional()
+  })),
   route: z.object({
     coordinates: z.array(z.tuple([z.number(), z.number()])).min(2, "Route must have at least 2 coordinates"),
     waypoints: z.array(z.object({
@@ -84,10 +84,13 @@ export function validateTripData(tripData: any, tripId: string): TripValidationR
       result.isValid = false;
     }
 
-    // Calculate expected days and compare with stats.days
+    // Calculate expected days and compare with duration stat if present
     const daysDiff = Math.ceil((tripData.endDate - tripData.startDate) / (1000 * 60 * 60 * 24)) + 1;
-    if (Math.abs(daysDiff - tripData.stats?.days) > 1) {
-      result.warnings.push(`stats.days (${tripData.stats?.days}) doesn't match calculated days (${daysDiff})`);
+    if (tripData.stats && Array.isArray(tripData.stats)) {
+      const durationStat = tripData.stats.find(stat => stat.id === 'duration' || stat.id === 'days');
+      if (durationStat && Math.abs(daysDiff - durationStat.value) > 1) {
+        result.warnings.push(`stats duration (${durationStat.value}) doesn't match calculated days (${daysDiff})`);
+      }
     }
   }
 

@@ -26,13 +26,40 @@ describe('Content Management Tests', () => {
         endDate: new Date('2024-01-15'),
         status: 'completed',
         headerImage: '/images/test-header.jpg',
-        stats: {
-          kilometers: 500,
-          activities: 5,
-          peopleMet: 10,
-          cities: 3,
-          days: 15
-        },
+        stats: [
+          {
+            id: 'distance',
+            value: 500,
+            label: 'Distance Traveled',
+            icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>',
+            unit: 'km'
+          },
+          {
+            id: 'activities',
+            value: 5,
+            label: 'Activities',
+            icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>'
+          },
+          {
+            id: 'people',
+            value: 10,
+            label: 'People Met',
+            icon: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>'
+          },
+          {
+            id: 'cities',
+            value: 3,
+            label: 'Cities Visited',
+            icon: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>'
+          },
+          {
+            id: 'duration',
+            value: 15,
+            label: 'Duration',
+            icon: '<circle cx="12" cy="12" r="10"></circle>',
+            unit: 'days'
+          }
+        ],
         route: {
           coordinates: [[40.7128, -74.0060], [41.8781, -87.6298]],
           waypoints: [
@@ -79,13 +106,33 @@ describe('Content Management Tests', () => {
         endDate: new Date('2024-01-15'),
         status: 'invalid-status', // Invalid status
         headerImage: '',
-        stats: {
-          kilometers: -100, // Invalid: negative number
-          activities: 5,
-          peopleMet: 10,
-          cities: 3,
-          days: 0 // Invalid: must be at least 1
-        },
+        stats: [
+          {
+            id: 'distance',
+            value: -100, // Invalid: negative number
+            label: 'Distance Traveled',
+            icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>',
+            unit: 'km'
+          },
+          {
+            id: '', // Invalid: empty id
+            value: 5,
+            label: 'Activities',
+            icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>'
+          },
+          {
+            id: 'people',
+            value: 10,
+            label: '', // Invalid: empty label
+            icon: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>'
+          },
+          {
+            id: 'cities',
+            value: 3,
+            label: 'Cities Visited',
+            icon: '' // Invalid: empty icon
+          }
+        ],
         route: {
           coordinates: [[40.7128]], // Invalid: incomplete coordinate
           waypoints: [] // Invalid: must have at least 1 waypoint
@@ -113,8 +160,10 @@ describe('Content Management Tests', () => {
       expect(result.errors.some(error => error.includes('title'))).toBe(true);
       expect(result.errors.some(error => error.includes('description'))).toBe(true);
       expect(result.errors.some(error => error.includes('status'))).toBe(true);
-      expect(result.errors.some(error => error.includes('kilometers'))).toBe(true);
-      expect(result.errors.some(error => error.includes('days'))).toBe(true);
+      expect(result.errors.some(error => error.includes('stats[0].value'))).toBe(true); // negative value
+      expect(result.errors.some(error => error.includes('stats[1].id'))).toBe(true); // empty id
+      expect(result.errors.some(error => error.includes('stats[2].label'))).toBe(true); // empty label
+      expect(result.errors.some(error => error.includes('stats[3].icon'))).toBe(true); // empty icon
     });
 
     it('should validate coordinate ranges for route data', () => {
@@ -300,11 +349,16 @@ describe('Content Management Tests', () => {
         expect(Array.isArray(trip.data.participants)).toBe(true);
 
         // Verify stats structure
-        expect(typeof trip.data.stats.kilometers).toBe('number');
-        expect(typeof trip.data.stats.activities).toBe('number');
-        expect(typeof trip.data.stats.peopleMet).toBe('number');
-        expect(typeof trip.data.stats.cities).toBe('number');
-        expect(typeof trip.data.stats.days).toBe('number');
+        expect(Array.isArray(trip.data.stats)).toBe(true);
+        trip.data.stats.forEach(stat => {
+          expect(typeof stat.id).toBe('string');
+          expect(typeof stat.value).toBe('number');
+          expect(typeof stat.label).toBe('string');
+          expect(typeof stat.icon).toBe('string');
+          if (stat.unit) {
+            expect(typeof stat.unit).toBe('string');
+          }
+        });
 
         // Verify route structure
         expect(Array.isArray(trip.data.route.coordinates)).toBe(true);
@@ -610,13 +664,21 @@ This content doesn't have a main heading. It has plenty of text content to avoid
         endDate: new Date('2024-01-15'),
         status: 'completed',
         headerImage: '/images/test.jpg',
-        stats: {
-          kilometers: 500,
-          activities: 5,
-          peopleMet: 10,
-          cities: 3,
-          days: 15
-        },
+        stats: [
+          {
+            id: 'distance',
+            value: 500,
+            label: 'Distance Traveled',
+            icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>',
+            unit: 'km'
+          },
+          {
+            id: 'activities',
+            value: 5,
+            label: 'Activities',
+            icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>'
+          }
+        ],
         route: {
           coordinates: [[40.7128, -74.0060], [41.8781, -87.6298]],
           waypoints: [{ name: 'Test', coordinates: [40.7128, -74.0060] }]

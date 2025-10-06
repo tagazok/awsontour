@@ -41,13 +41,21 @@ const tripSchema = {
     }
 
     // Stats validation
-    if (!data.stats || typeof data.stats !== 'object') {
-      errors.push('stats object is required');
+    if (!Array.isArray(data.stats)) {
+      errors.push('stats must be an array');
     } else {
-      const requiredStats = ['kilometers', 'activities', 'peopleMet', 'cities', 'days'];
-      requiredStats.forEach(stat => {
-        if (typeof data.stats[stat] !== 'number' || data.stats[stat] < 0) {
-          errors.push(`stats.${stat} must be a positive number`);
+      data.stats.forEach((stat, index) => {
+        if (!stat.id || typeof stat.id !== 'string') {
+          errors.push(`stats[${index}].id is required and must be a string`);
+        }
+        if (typeof stat.value !== 'number' || stat.value < 0) {
+          errors.push(`stats[${index}].value must be a positive number`);
+        }
+        if (!stat.label || typeof stat.label !== 'string') {
+          errors.push(`stats[${index}].label is required and must be a string`);
+        }
+        if (!stat.icon || typeof stat.icon !== 'string') {
+          errors.push(`stats[${index}].icon is required and must be a string`);
         }
       });
     }
@@ -89,8 +97,11 @@ const tripSchema = {
 
       // Check days calculation
       const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-      if (data.stats && Math.abs(daysDiff - data.stats.days) > 1) {
-        warnings.push(`stats.days (${data.stats.days}) doesn't match calculated days (${daysDiff})`);
+      if (Array.isArray(data.stats)) {
+        const durationStat = data.stats.find(stat => stat.id === 'duration' || stat.id === 'days');
+        if (durationStat && Math.abs(daysDiff - durationStat.value) > 1) {
+          warnings.push(`stats duration (${durationStat.value}) doesn't match calculated days (${daysDiff})`);
+        }
       }
     }
 

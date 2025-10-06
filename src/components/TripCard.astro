@@ -25,6 +25,28 @@ const duration = Math.ceil((data.endDate.getTime() - data.startDate.getTime()) /
 // Determine if this is the current trip
 const now = new Date();
 const isCurrent = data.status === 'current' || (data.startDate <= now && data.endDate >= now);
+
+// Add calculated duration as a stat if not already present
+const hasExplicitDuration = data.stats.some(stat => stat.id === 'duration' || stat.id === 'days');
+const statsWithDuration = hasExplicitDuration 
+  ? data.stats 
+  : [...data.stats, {
+      id: 'duration',
+      value: duration,
+      label: 'Duration',
+      icon: '',
+      unit: duration === 1 ? 'day' : 'days'
+    }];
+
+// Filter to only show statistics with values > 0 and limit to first 4 for card display
+const visibleCardStats = statsWithDuration
+  .filter(stat => stat.value > 0)
+  .slice(0, 4)
+  .map(stat => ({
+    value: stat.value,
+    label: stat.unit || stat.label.toLowerCase(),
+    id: stat.id
+  }));
 ---
 
 <article class={`trip-card ${isCurrent ? 'current-trip' : ''}`}>
@@ -59,24 +81,16 @@ const isCurrent = data.status === 'current' || (data.startDate <= now && data.en
         </time>
       </div>
       
-      <div class="trip-card__stats">
-        <div class="trip-card__stat">
-          <span class="trip-card__stat-value">{data.stats.kilometers}</span>
-          <span class="trip-card__stat-label">km</span>
+      {visibleCardStats.length > 0 && (
+        <div class="trip-card__stats">
+          {visibleCardStats.map((stat) => (
+            <div class="trip-card__stat">
+              <span class="trip-card__stat-value">{stat.value}</span>
+              <span class="trip-card__stat-label">{stat.label}</span>
+            </div>
+          ))}
         </div>
-        <div class="trip-card__stat">
-          <span class="trip-card__stat-value">{duration}</span>
-          <span class="trip-card__stat-label">days</span>
-        </div>
-        <div class="trip-card__stat">
-          <span class="trip-card__stat-value">{data.stats.cities}</span>
-          <span class="trip-card__stat-label">cities</span>
-        </div>
-        <div class="trip-card__stat">
-          <span class="trip-card__stat-value">{data.stats.activities}</span>
-          <span class="trip-card__stat-label">activities</span>
-        </div>
-      </div>
+      )}
     </div>
   </a>
 </article>
@@ -178,7 +192,7 @@ const isCurrent = data.status === 'current' || (data.startDate <= now && data.en
 
   .trip-card__stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     gap: 1rem;
   }
 
@@ -234,7 +248,7 @@ const isCurrent = data.status === 'current' || (data.startDate <= now && data.en
     }
 
     .trip-card__stats {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
       gap: 0.75rem;
     }
 

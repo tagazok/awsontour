@@ -11,7 +11,7 @@ export interface Props {
 const { title, description, image, tripSlug } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} image={image} bodyClass="trip-page">
   <div class="trip-layout">
     <!-- Breadcrumb Navigation -->
     <!-- <nav class="breadcrumb-nav" aria-label="Breadcrumb">
@@ -128,8 +128,7 @@ const { title, description, image, tripSlug } = Astro.props;
 
   /* Trip Content Layout */
   .trip-content {
-    max-width: 1200px;
-    margin: 0 auto;
+    /* Remove max-width constraint to allow full-width header */
   }
 
   .trip-section {
@@ -139,34 +138,47 @@ const { title, description, image, tripSlug } = Astro.props;
   /* Specific section styling */
   .trip-header-section {
     margin-bottom: 0;
+    padding: 0;
   }
 
   .trip-stats-section {
     padding: 2rem 1rem;
     background-color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .trip-map-section {
     padding: 0 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .trip-gallery-section {
     padding: 2rem 1rem;
     background-color: #f9fafb;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .trip-activities-section {
     padding: 2rem 1rem;
     background-color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .trip-participants-section {
     padding: 2rem 1rem;
     background-color: #f9fafb;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .trip-additional-content {
     padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   /* Remove margin from last section */
@@ -279,3 +291,41 @@ const { title, description, image, tripSlug } = Astro.props;
     }
   }
 </style>
+
+<script>
+  // Handle header transparency on scroll for full viewport trip pages
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.site-header');
+    const tripHeader = document.querySelector('.trip-header');
+    
+    if (header && tripHeader) {
+      let ticking = false;
+      
+      const updateHeader = () => {
+        const scrollY = window.scrollY;
+        const tripHeaderHeight = tripHeader.offsetHeight;
+        
+        // Add scrolled class when scrolled past 50% of trip header
+        if (scrollY > tripHeaderHeight * 0.5) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        ticking = false;
+      };
+      
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateHeader);
+          ticking = true;
+        }
+      };
+      
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial check
+      updateHeader();
+    }
+  });
+</script>

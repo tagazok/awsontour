@@ -4,13 +4,15 @@ export interface Props {
   description?: string;
   image?: string;
   canonical?: string;
+  bodyClass?: string;
 }
 
 const {
   title = "Travel Showcase",
   description = "Explore amazing travel experiences and adventures around the world",
   image = "/favicon.svg",
-  canonical = Astro.url.href
+  canonical = Astro.url.href,
+  bodyClass = ""
 } = Astro.props;
 
 const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showcase`;
@@ -54,7 +56,7 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
     <!-- Additional head content from pages -->
     <slot name="head" />
   </head>
-  <body>
+  <body class={bodyClass}>
     <div class="site-wrapper">
       <header class="site-header">
         <nav class="nav-container">
@@ -194,6 +196,62 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+
+  /* Overlay header for trip pages */
+  .trip-page .site-header {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .trip-page .site-header.scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* White text for overlay header */
+  .trip-page .site-header .brand-text {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  }
+
+  .trip-page .site-header .nav-link {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  }
+
+  .trip-page .site-header .nav-link:hover {
+    color: #e0e7ff;
+  }
+
+  /* Revert to normal colors when scrolled */
+  .trip-page .site-header.scrolled .brand-text {
+    color: #2563eb;
+    text-shadow: none;
+  }
+
+  .trip-page .site-header.scrolled .nav-link {
+    color: #374151;
+    text-shadow: none;
+  }
+
+  .trip-page .site-header.scrolled .nav-link:hover {
+    color: #2563eb;
+  }
+
+  /* White hamburger menu for overlay */
+  .trip-page .site-header .hamburger {
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  }
+
+  .trip-page .site-header.scrolled .hamburger {
+    background-color: #374151;
+    box-shadow: none;
   }
   
   .nav-container {

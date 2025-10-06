@@ -7,7 +7,7 @@ status: "completed"
 headerImage: "/images/trips/tour-2023/header.jpg"
 stats:
   - id: "distance"
-    value: 1332
+    value: 3198
     label: "Traveled"
     icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>'
     unit: "km"
@@ -61,59 +61,71 @@ gallery:
   - image: "/images/trips/tour-2023/glacier.jpg"
     title: "Jokulsarlon Glacier Lagoon"
     description: "Icebergs floating in the stunning glacier lagoon"
-  - image: "/images/trips/iceland/northern-lights.jpg"
+  - image: "/images/trips/trip-2023/northern-lights.jpg"
     title: "Northern Lights"
-    description: "Aurora borealis dancing over the Icelandic landscape"
-  - image: "/images/trips/iceland/black-beach.jpg"
+    description: "Aurora borealis dancing over the trip-2023ic landscape"
+  - image: "/images/trips/trip-2023/black-beach.jpg"
     title: "Reynisfjara Black Beach"
     description: "Dramatic basalt columns and black volcanic sand"
 activities:
   - name: "AWS User Group Barcelona"
+    location: "Barcelona, Spain"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-10-06
     registrationUrl: "https://www.meetup.com/barcelona-amazon-web-services-meetup/events/295672224/"
     isPublic: true
+    image: "/images/trips/tour-2023/events/barcelona.jpg"
   - name: "AWS User Group Lyon"
+    location: "Lyon, France"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-10-04
     registrationUrl: "https://www.meetup.com/aws-lyon-amazon-web-services-user-group/events/295732348/"
     isPublic: true
+    image: "/images/trips/tour-2023/events/lyon.jpg"
   - name: "AWS User Group Milan"
+    location: "Milan, Italy"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-10-02
     registrationUrl: "https://www.meetup.com/awsusergroupmilano/events/295954321/"
     isPublic: true
+    image: "/images/trips/tour-2023/events/milan.jpg"
   - name: "AWS User Group Zürich"
+    location: "Zürich, Switzerland"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-09-29
     registrationUrl: "https://www.meetup.com/aws-swiss-user-group-zurich/events/296107551/"
     isPublic: true
     image: "/images/trips/tour-2023/events/zurich.jpg"
   - name: "AWS User Group Frankfurt"
+    location: "Frankfurt, Germany"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-09-27
     registrationUrl: "https://www.meetup.com/fra_aws/events/296039110/"
     isPublic: true
     image: "/images/trips/tour-2023/events/frankfurt.jpg"
   - name: "AWS User Group Amsterdam"
+    location: "Amsterdam, Netherland"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-09-25
     registrationUrl: "https://www.meetup.com/awsugnl/events/295597098/"
     isPublic: true
     image: "/images/trips/tour-2023/events/amsterdam.jpg"
   - name: "AWS User Group Brussels"
+    location: "Brussels, Belgium"
     description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
     date: 2023-09-21
     registrationUrl: "https://www.meetup.com/aws-user-group-belgium/events/295908955/"
     isPublic: true
     image: "/images/trips/tour-2023/events/brussels.jpg"
   - name: AWS User Group Paris"
+    location: "Paris, France"
     description: "Learn to capture the aurora borealis with professional techniques"
     date: 2023-09-20
     registrationUrl: "https://www.meetup.com/french-aws-ug/events/296035051/"
     isPublic: true
     image: "/images/trips/tour-2023/events/paris.jpg"
   - name: "AWS User Group London"
+    location: "London, United Kingdon"
     description: "Boat tour from Husavik to spot humpback and minke whales"
     date: 2023-09-18
     registrationUrl: "https://www.meetup.com/awsuguk/events/295611434/"

@@ -25,6 +25,7 @@ export interface TripActivity {
   description: string;
   date?: Date;
   registrationUrl?: string;
+  location?: string;
   isPublic: boolean;
 }
 

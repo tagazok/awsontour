@@ -7,6 +7,7 @@ interface TripActivity {
   description: string;
   date?: Date;
   registrationUrl?: string;
+  location?: string;
   isPublic: boolean;
   image?: string;
 }
@@ -32,32 +33,60 @@ const formatDate = (date: Date | undefined): string => {
   <h2 class="activities-title">Activities & Events</h2>
   <div class="activities-grid">
     {activities.map((activity) => (
-      <div class={`activity-card ${activity.isPublic ? 'public' : 'private'}`}>
+      <div class={`activity-card ${activity.isPublic ? 'public' : 'private'} ${activity.image ? 'has-background' : 'no-background'}`}>
         {activity.image && (
-          <div class="activity-image-container">
+          <div class="activity-background">
             <Image
               src={activity.image}
               alt={`${activity.name} activity image`}
-              width={320}
-              height={180}
+              width={400}
+              height={300}
               {...imageConfigs.tripCard}
-              class="activity-image"
+              class="background-image"
             />
+            <div class="background-overlay"></div>
           </div>
         )}
         
         <div class="activity-content">
           <div class="activity-header">
-            <h3 class="activity-name">{activity.name}</h3>
-            {activity.isPublic && (
+            <div class="activity-small-details">
+            {/* <h3 class="activity-name">{activity.name}</h3> */}
+            {activity.location && (
+              <div class="activity-location">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-2si736pb=""><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                {activity.location}
+              </div>
+            )}
+            {activity.date && (
+            <div class="activity-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-2si736pb=""><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              {formatDate(activity.date)}
+            </div>
+            )}
+            </div>
+            {activity.isPublic && activity.registrationUrl && (
+              <a 
+                href={activity.registrationUrl} 
+                class="registration-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Register for ${activity.name}`}
+              >Register</a>
+              )
+            }
+            {!activity.isPublic && (
+              <span class="activity-badge private-badge">Private</span>
+            )}
+            {/* {activity.isPublic && (
               <span class="activity-badge public-badge">Public Event</span>
             )}
             {!activity.isPublic && (
               <span class="activity-badge private-badge">Private</span>
-            )}
+            )} */}
           </div>
           
-          {activity.date && (
+          {/* { {activity.date && (
             <div class="activity-date">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -67,11 +96,17 @@ const formatDate = (date: Date | undefined): string => {
               </svg>
               <span>{formatDate(activity.date)}</span>
             </div>
-          )}
+          )} } */}
 
-          <p class="activity-description">{activity.description}</p>
-
-          {activity.isPublic && activity.registrationUrl && (
+          {/* <p class="activity-description">{activity.description}</p> */}
+          <div class="activity-description">
+            <div>{activity.name}</div>
+            {/* <div class="activity-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-2si736pb=""><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              {formatDate(activity.date)}
+            </div> */}
+          </div>
+          {/* {activity.isPublic && activity.registrationUrl && (
             <div class="activity-actions">
               <a 
                 href={activity.registrationUrl} 
@@ -88,13 +123,13 @@ const formatDate = (date: Date | undefined): string => {
                 Register Now
               </a>
             </div>
-          )}
+          )} */}
 
-          {activity.isPublic && !activity.registrationUrl && (
+          {/* {activity.isPublic && !activity.registrationUrl && (
             <div class="activity-actions">
               <span class="no-registration">No registration required</span>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     ))}
@@ -104,7 +139,6 @@ const formatDate = (date: Date | undefined): string => {
 <style>
   .trip-activities {
     padding: 3rem 0;
-    background: #f8f9fa;
   }
 
   .activities-title {
@@ -125,21 +159,32 @@ const formatDate = (date: Date | undefined): string => {
   }
 
   .activity-card {
-    background: white;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 4px solid transparent;
     overflow: hidden;
+    position: relative;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
   }
 
-  .activity-card.public {
+  /* Cards with background images */
+  .activity-card.has-background {
+    background: transparent;
+  }
+
+  /* Cards without background images (fallback) */
+  .activity-card.no-background {
+    background: white;
+    border-left: 4px solid transparent;
+  }
+
+  .activity-card.no-background.public {
     border-left-color: #27ae60;
   }
 
-  .activity-card.private {
+  .activity-card.no-background.private {
     border-left-color: #95a5a6;
   }
 
@@ -148,29 +193,92 @@ const formatDate = (date: Date | undefined): string => {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   }
 
-  .activity-image-container {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
+  /* Background image setup */
+  .activity-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
   }
 
-  .activity-image {
+  .background-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
   }
 
-  .activity-card:hover .activity-image {
+  .activity-card:hover .background-image {
     transform: scale(1.05);
   }
 
+  /* Dark overlay for better text readability */
+  .background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    z-index: 2;
+  }
+
+  /* Content overlay */
   .activity-content {
-    padding: 1.5rem;
+    position: relative;
+    z-index: 3;
+    /* padding: 1.5rem; */
+    padding: .5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+    /* justify-content: flex-end; */
+  }
+
+  /* Text styling for cards with background */
+  .has-background .activity-name {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .has-background .activity-date {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .has-background .activity-date svg {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .has-background .activity-description {
+    color: rgba(255, 255, 255, 0.95);
+    /* text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); */
+/* text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); */
+    background-color: rgba(255 255 255 / .1);
+    padding: .5rem;
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+  }
+
+  /* Text styling for cards without background */
+  .no-background .activity-name {
+    color: #2c3e50;
+  }
+
+  .no-background .activity-date {
+    color: #7f8c8d;
+  }
+
+  .no-background .activity-description {
+    color: #5a6c7d;
   }
 
   .activity-header {
@@ -178,7 +286,7 @@ const formatDate = (date: Date | undefined): string => {
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
   }
 
   .activity-name {
@@ -189,6 +297,28 @@ const formatDate = (date: Date | undefined): string => {
     line-height: 1.3;
   }
 
+  .activity-small-details {
+    background-color: rgba(255 255 255 / .1);
+    padding: 0.2rem .5rem;
+    font-size: .8rem;
+    color: #fff;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+  }
+  .activity-location {
+    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    /* background-color: rgba(255 255 255 / .1);
+    padding: 0.2rem .5rem;
+    color: #fff;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+    font-size: .8rem; */
+  }
+
   .activity-badge {
     font-size: 0.75rem;
     font-weight: 500;
@@ -197,31 +327,49 @@ const formatDate = (date: Date | undefined): string => {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .public-badge {
+  /* Badges for cards with background */
+  .has-background .public-badge {
+    background: rgba(39, 174, 96, 0.9);
+    color: white;
+  }
+
+  .has-background .private-badge {
+    background: rgba(149, 165, 166, 0.9);
+    color: white;
+  }
+
+  /* Badges for cards without background */
+  .no-background .public-badge {
     background: #d5f4e6;
     color: #27ae60;
+    border: none;
+    backdrop-filter: none;
   }
 
-  .private-badge {
+  .no-background .private-badge {
     background: #ecf0f1;
     color: #7f8c8d;
+    border: none;
+    backdrop-filter: none;
   }
 
   .activity-date {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
-    color: #7f8c8d;
-    font-size: 0.875rem;
+    /* margin-bottom: 1rem; */
+    /* color: #7f8c8d; */
+    /* font-size: 0.875rem; */
   }
 
   .activity-description {
     color: #5a6c7d;
     line-height: 1.6;
-    margin: 0 0 1.5rem 0;
+    /* margin: 0 0 1.5rem 0; */
   }
 
   .activity-actions {
@@ -235,11 +383,14 @@ const formatDate = (date: Date | undefined): string => {
     background: #3498db;
     color: white;
     text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    /* padding: 0.75rem 1.5rem; */
+    padding: .2rem .5rem;
+    border-radius: 20px;
     font-weight: 500;
     font-size: 0.875rem;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .registration-button:hover {
@@ -251,10 +402,24 @@ const formatDate = (date: Date | undefined): string => {
     transform: translateY(0);
   }
 
+  /* Registration button for cards without background */
+  .no-background .registration-button {
+    backdrop-filter: none;
+    border: none;
+  }
+
   .no-registration {
-    color: #7f8c8d;
     font-size: 0.875rem;
     font-style: italic;
+  }
+
+  /* No registration text styling */
+  .has-background .no-registration {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .no-background .no-registration {
+    color: #7f8c8d;
   }
 
   /* Responsive design */
@@ -274,17 +439,18 @@ const formatDate = (date: Date | undefined): string => {
       padding: 0 1rem;
     }
 
-    .activity-content {
-      padding: 1.25rem;
+    .activity-card {
+      min-height: 280px;
     }
 
-    .activity-image-container {
-      height: 160px;
+    .activity-content {
+      /* padding: 1.25rem; */
     }
 
     .activity-header {
       flex-direction: column;
       align-items: flex-start;
+      justify-content: space-between;
       gap: 0.75rem;
     }
 
@@ -298,18 +464,18 @@ const formatDate = (date: Date | undefined): string => {
       padding: 0 0.5rem;
     }
 
+    .activity-card {
+      min-height: 260px;
+    }
+
     .activity-content {
-      padding: 1rem;
+      /* padding: 1rem; */
     }
 
-    .activity-image-container {
-      height: 140px;
-    }
-
-    .registration-button {
+    /* .registration-button {
       width: 100%;
       justify-content: center;
       padding: 1rem;
-    }
+    } */
   }
 </style>

@@ -113,6 +113,7 @@ const tripSchema = z.object({
     description: z.string(),
     date: z.date().optional(),
     registrationUrl: z.string().url().optional(),
+    location: z.date().optional(),
     isPublic: z.boolean().default(false)
   })),
   participants: z.array(z.object({

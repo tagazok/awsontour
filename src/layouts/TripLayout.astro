@@ -39,12 +39,17 @@ const { title, description, image, tripSlug } = Astro.props;
         <slot name="header" />
       </section>
 
-      <!-- Trip Stats Section -->
+      <!-- Combined Stats and Map Section (when using side-by-side layout) -->
+      <section class="trip-section trip-stats-map-section">
+        <slot name="stats-map" />
+      </section>
+
+      <!-- Trip Stats Section (when using separate layout) -->
       <section class="trip-section trip-stats-section">
         <slot name="stats" />
       </section>
 
-      <!-- Trip Map Section -->
+      <!-- Trip Map Section (when using separate layout) -->
       <section class="trip-section trip-map-section">
         <slot name="map" />
       </section>
@@ -139,6 +144,10 @@ const { title, description, image, tripSlug } = Astro.props;
   .trip-header-section {
     margin-bottom: 0;
     padding: 0;
+  }
+
+  .trip-stats-map-section {
+    margin-bottom: 3rem;
   }
 
   .trip-stats-section {

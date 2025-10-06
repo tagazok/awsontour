@@ -30,6 +30,10 @@ if (!trip) {
 
 const { Content } = await trip.render();
 const { data } = trip;
+
+// Check if we should use side-by-side layout for stats and map
+const visibleStats = data.stats.filter(stat => stat.value && stat.value > 0);
+const shouldUseSideBySideLayout = visibleStats.length < 5;
 ---
 
 <TripLayout 
@@ -46,26 +50,54 @@ const { data } = trip;
     headerImage={data.headerImage}
   />
 
-  <!-- Trip Stats Section -->
-  <TripStats 
-    slot="stats"
-    stats={data.stats}
-  />
-
-  <!-- Map Section -->
-  {data.route && data.route.coordinates && data.route.coordinates.length > 0 ? (
-    <TripMap 
-      slot="map"
-      route={data.route}
-      title={`${data.title} Route`}
-    />
-  ) : (
-    <div slot="map" class="map-fallback">
-      <div class="map-fallback-content">
-        <h2>Trip Route</h2>
-        <p>Route information not available for this trip.</p>
+  {shouldUseSideBySideLayout ? (
+    <!-- Combined Stats and Map Section (side by side) -->
+    <div slot="stats-map" class="stats-map-combined">
+      <div class="stats-map-container">
+        <div class="stats-column">
+          <TripStats stats={data.stats} />
+        </div>
+        <div class="map-column">
+          {data.route && data.route.coordinates && data.route.coordinates.length > 0 ? (
+            <TripMap 
+              route={data.route}
+              title={`${data.title} Route`}
+            />
+          ) : (
+            <div class="map-fallback">
+              <div class="map-fallback-content">
+                <h2>Trip Route</h2>
+                <p>Route information not available for this trip.</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
+  ) : (
+    <>
+      <!-- Trip Stats Section (separate) -->
+      <TripStats 
+        slot="stats"
+        stats={data.stats}
+      />
+
+      <!-- Map Section (separate) -->
+      {data.route && data.route.coordinates && data.route.coordinates.length > 0 ? (
+        <TripMap 
+          slot="map"
+          route={data.route}
+          title={`${data.title} Route`}
+        />
+      ) : (
+        <div slot="map" class="map-fallback">
+          <div class="map-fallback-content">
+            <h2>Trip Route</h2>
+            <p>Route information not available for this trip.</p>
+          </div>
+        </div>
+      )}
+    </>
   )}
 
   <!-- Trip Gallery Section -->
@@ -95,6 +127,65 @@ const { data } = trip;
 </TripLayout>
 
 <style>
+  /* Combined Stats and Map Layout */
+  .stats-map-combined {
+    padding: 2rem 1rem;
+    background-color: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stats-map-container {
+    display: grid;
+    grid-template-columns: 400px 1fr; /* Fixed width for stats, flexible for map */
+    gap: 3rem;
+    align-items: stretch;
+    min-height: 500px;
+  }
+
+  .stats-column {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px; /* Match container height */
+  }
+
+  .stats-column :global(.trip-stats) {
+    padding: 0;
+    background: transparent;
+    flex: 1; /* Fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+  }
+
+  .stats-column :global(.stats-title) {
+    text-align: left;
+    margin-bottom: 2rem;
+    flex-shrink: 0; /* Don't shrink the title */
+  }
+
+  .stats-column :global(.stats-grid) {
+    padding: 0;
+    gap: 1.5rem;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Force 2x2 grid for compact display */
+    align-content: center;
+    max-width: 400px; /* Constrain width */
+  }
+
+  .map-column {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px; /* Match container height */
+  }
+
+  .map-column :global(.trip-map) {
+    flex: 1; /* Fill available space */
+    min-height: 500px; /* Match container height */
+    height: 500px; /* Set explicit height */
+  }
+
   /* Map Fallback Styles */
   .map-fallback {
     background: #f8f9fa;
@@ -102,7 +193,13 @@ const { data } = trip;
     border-radius: 12px;
     padding: 2rem;
     text-align: center;
-    margin: 2rem 0;
+    flex: 1; /* Fill available space in map column */
+    min-height: 500px; /* Match container height */
+    height: 500px; /* Set explicit height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* Remove margin when in side-by-side layout */
   }
 
   .map-fallback-content h2 {
@@ -202,10 +299,83 @@ const { data } = trip;
   }
 
   /* Responsive Design */
+  @media (max-width: 1024px) {
+    .stats-map-container {
+      grid-template-columns: 350px 1fr; /* Slightly smaller stats column on tablet */
+      gap: 2rem;
+      min-height: auto;
+    }
+
+    .stats-column :global(.stats-grid) {
+      max-width: 350px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .stats-map-container {
+      grid-template-columns: 1fr; /* Stack on smaller tablets */
+      gap: 2rem;
+      min-height: auto;
+    }
+
+    .stats-column :global(.stats-grid) {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Revert to flexible grid */
+      max-width: none;
+    }
+
+    .stats-column :global(.stats-title) {
+      text-align: center; /* Center title when stacked */
+    }
+
+    .stats-column {
+      min-height: auto; /* Remove fixed height on tablet */
+    }
+
+    .stats-column :global(.trip-stats) {
+      justify-content: flex-start; /* Align to top on tablet */
+    }
+
+    .stats-column :global(.stats-grid) {
+      align-content: start; /* Align to top on tablet */
+    }
+
+    .map-column {
+      min-height: 350px;
+    }
+
+    .map-column :global(.trip-map) {
+      min-height: 350px;
+      height: 350px;
+    }
+
+    .map-fallback {
+      min-height: 350px;
+      height: 350px;
+    }
+  }
+
   @media (max-width: 768px) {
+    .stats-map-combined {
+      padding: 1.5rem 0.75rem;
+    }
+
+    .stats-map-container {
+      gap: 1.5rem;
+    }
+
+    .map-column {
+      min-height: 300px;
+    }
+
+    .map-column :global(.trip-map) {
+      min-height: 300px;
+      height: 300px;
+    }
+
     .map-fallback {
       padding: 1.5rem 1rem;
-      margin: 1rem 0;
+      min-height: 300px;
+      height: 300px;
     }
 
     .map-fallback-content h2 {
@@ -222,8 +392,37 @@ const { data } = trip;
   }
 
   @media (max-width: 480px) {
+    .stats-map-combined {
+      padding: 1rem 0.5rem;
+    }
+
+    .stats-map-container {
+      gap: 1rem;
+    }
+
+    .stats-column :global(.stats-title) {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-column :global(.stats-grid) {
+      gap: 1rem;
+    }
+
+    .map-column {
+      min-height: 250px;
+    }
+
+    .map-column :global(.trip-map) {
+      min-height: 250px;
+      height: 250px;
+    }
+
     .map-fallback {
       padding: 1rem 0.75rem;
+      min-height: 250px;
+      height: 250px;
     }
 
     .trip-markdown-content {

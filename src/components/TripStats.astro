@@ -30,7 +30,7 @@ const visibleStats = stats.filter(stat => stat.value && stat.value > 0);
 
 {visibleStats.length > 0 && (
   <section class="trip-stats">
-    <h2 class="stats-title">Trip Statistics</h2>
+    {/* <h2 class="stats-title">Trip Statistics</h2> */}
     <div class="stats-grid">
       {visibleStats.map((stat) => (
         <div class="stat-item">

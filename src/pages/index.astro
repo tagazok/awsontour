@@ -18,8 +18,8 @@ const currentTrip = sortedTrips.find(trip =>
 );
 
 // Filter trips by status for organized display
-const completedTrips = sortedTrips.filter(trip => trip.data.status === 'completed');
-const plannedTrips = sortedTrips.filter(trip => trip.data.status === 'planned');
+// const completedTrips = sortedTrips.filter(trip => trip.data.status === 'completed');
+// const plannedTrips = sortedTrips.filter(trip => trip.data.status === 'planned');
 
 // Prepare critical images for preloading (first 3 trips)
 const criticalImages = sortedTrips.slice(0, 3).map(trip => ({
@@ -36,7 +36,7 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
 }
 ---
 
-<BaseLayout title="Travel Showcase" description="Explore my travel adventures and journeys around the world">
+<BaseLayout title="AWS On Tour" description="Explore my travel adventures and journeys around the world">
   <!-- Preload critical images -->
   <Fragment slot="head">
     {criticalImages.map(({ src, type }) => (
@@ -47,10 +47,9 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero__content">
-        <h1 class="hero__title">Travel Adventures</h1>
+        <h1 class="hero__title">AWS On Tour</h1>
         <p class="hero__subtitle">
-          Exploring the world one journey at a time. Discover my travel experiences, 
-          from epic road trips to cultural immersions.
+          Meeting developers, on place at a time.
         </p>
       </div>
     </section>
@@ -80,7 +79,7 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
         <h2 class="section-title">All Adventures</h2>
         
         <!-- Filter/Sort Controls -->
-        <div class="trip-controls">
+        <!-- <div class="trip-controls">
           <div class="trip-filters">
             <button class="filter-btn active" data-filter="all">All Trips</button>
             <button class="filter-btn" data-filter="completed">Completed</button>
@@ -93,7 +92,7 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
               <option value="title">Alphabetical</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
         <!-- Trip Grid -->
         <div class="trip-grid" id="trip-grid">

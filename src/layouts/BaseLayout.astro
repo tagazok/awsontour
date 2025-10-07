@@ -15,7 +15,7 @@ const {
   bodyClass = ""
 } = Astro.props;
 
-const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showcase`;
+const siteTitle = title === "AWS On Tour" ? title : `${title} | AWS On Tour`;
 ---
 
 <!doctype html>
@@ -66,22 +66,22 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
             </a>
           </div>
           
-          <!-- <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
             <span class="hamburger"></span>
             <span class="hamburger"></span>
             <span class="hamburger"></span>
-          </button> -->
+          </button>
           
-          <!-- <div class="nav-menu">
+          <div class="nav-menu">
             <ul class="nav-list">
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="/" class="nav-link">Home</a>
-              </li>
+              </li> -->
               <li class="nav-item">
-                <a href="/trips" class="nav-link">All Trips</a>
+                <a href="/who-we-are" class="nav-link">Who we are</a>
               </li>
             </ul>
-          </div> -->
+          </div>
         </nav>
       </header>
       
@@ -95,7 +95,7 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
             <div class="footer-section">
               <h3 class="footer-title">AWS On Tour</h3>
               <p class="footer-description">
-                Documenting adventures and experiences from around the world.
+                Meeting developers, one event at a time.
               </p>
             </div>
             
@@ -110,7 +110,7 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
           
           <div class="footer-bottom">
             <p class="footer-copyright">
-              © {new Date().getFullYear()} Travel Showcase. Built with Astro.
+              © {new Date().getFullYear()} AWS On Tour. Built with ❤️ by <a href="https://www.linkedin.com/in/olivierleplus/" target="_blank">Olivier</a>.
             </p>
           </div>
         </div>
@@ -165,6 +165,11 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
 </html>
 
 <style>
+
+  :root {
+    color-scheme: light dark;
+  }
+
   /* Reset and base styles */
   * {
     box-sizing: border-box;
@@ -179,8 +184,8 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: #ffffff;
-    color: #333333;
+    background-color: light-dark(#ffffff, #1f2937);
+    color: light-dark(#333333, #fff);
   }
   
   .site-wrapper {
@@ -191,11 +196,12 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
   
   /* Header Styles */
   .site-header {
-    background-color: #ffffff;
+    background-color: light-dark(#ffffff, #1f2937);
     border-bottom: 1px solid #e5e7eb;
+    border-bottom-color: light-dark(#e5e7eb, transparent);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1001;
   }
 
   /* Overlay header for trip pages */
@@ -208,39 +214,29 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
-  .trip-page .site-header.scrolled {
-    background-color: rgba(255, 255, 255, 0.95);
+  .site-header.scrolled {
+    background-color: light-dark(rgba(255, 255, 255, 0.95), #1f2937);
     border-bottom: 1px solid #e5e7eb;
   }
 
   /* White text for overlay header */
   .trip-page .site-header .brand-text {
     color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    /* text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); */
   }
 
-  .trip-page .site-header .nav-link {
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-  }
-
-  .trip-page .site-header .nav-link:hover {
-    color: #e0e7ff;
-  }
-
-  /* Revert to normal colors when scrolled */
   .trip-page .site-header.scrolled .brand-text {
-    color: #2563eb;
-    text-shadow: none;
+    color: light-dark(#374151, #fff);
+    /* text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); */
   }
 
   .trip-page .site-header.scrolled .nav-link {
-    color: #374151;
-    text-shadow: none;
+    color: light-dark(#374151, #fff);
+
   }
 
   .trip-page .site-header.scrolled .nav-link:hover {
-    color: #2563eb;
+    color: light-dark(#374151, #fff);
   }
 
   /* White hamburger menu for overlay */
@@ -266,13 +262,13 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
   
   .nav-brand .brand-link {
     text-decoration: none;
-    color: #1f2937;
+    color: light-dark(#1f2937, #fff);
   }
   
   .brand-text {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2563eb;
+    color: light-dark(#1f2937, #fff);
   }
   
   .nav-toggle {
@@ -306,15 +302,15 @@ const siteTitle = title === "Travel Showcase" ? title : `${title} | Travel Showc
   
   .nav-link {
     text-decoration: none;
-    color: #374151;
+    color: light-dark(#374151, #fff);
     font-weight: 500;
     padding: 0.5rem 0;
     transition: color 0.2s ease;
   }
   
-  .nav-link:hover {
+  /* .nav-link:hover {
     color: #2563eb;
-  }
+  } */
   
   /* Main content */
   .main-content {

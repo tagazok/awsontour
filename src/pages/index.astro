@@ -46,12 +46,13 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
   <main class="home-page">
     <!-- Hero Section -->
     <section class="hero">
-      <div class="hero__content">
+      <img src="images/aws-on-tour-logo.png" />
+      <!-- <div class="hero__content">
         <h1 class="hero__title">AWS On Tour</h1>
         <p class="hero__subtitle">
-          Meeting developers, on place at a time.
+          Meeting developers, one event at a time.
         </p>
-      </div>
+      </div> -->
     </section>
 
     <!-- Current Trip Section -->
@@ -62,8 +63,8 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
           <div class="current-trip-highlight">
             <TripCard trip={currentTrip} />
             <div class="current-trip-info">
-              <h3>Follow My Current Adventure</h3>
-              <p>I'm currently on an amazing journey! Check out the details and follow along with my latest travel experience.</p>
+              <h3>We are on the road!</h3>
+              <p>We are currently on a journey to meet developers! Check out the details and follow along with the team.</p>
               <a href={`/trips/${currentTrip.slug}`} class="cta-button">
                 View Trip
               </a>
@@ -76,7 +77,7 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
     <!-- All Trips Section -->
     <section class="trips-section">
       <div class="container">
-        <h2 class="section-title">All Adventures</h2>
+        <!-- <h2 class="section-title">All Adventures</h2> -->
         
         <!-- Filter/Sort Controls -->
         <!-- <div class="trip-controls">
@@ -127,10 +128,16 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
 
   /* Hero Section */
   .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    /* background-color: #000; */
     color: white;
     padding: 4rem 0;
     text-align: center;
+
+    img {
+      max-width: 100%;
+      max-height: 80dvh;
+    }
   }
 
   .hero__content {

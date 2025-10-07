@@ -33,7 +33,7 @@ const getAvatarColor = (name: string): string => {
 ---
 
 <section class="trip-participants">
-  <h2 class="participants-title">Travel Companions</h2>
+  <h2 class="participants-title">Meet the team</h2>
   <div class="participants-grid">
     {participants.map((participant) => (
       <div class="person-card">
@@ -78,7 +78,7 @@ const getAvatarColor = (name: string): string => {
     font-size: 2rem;
     font-weight: bold;
     margin: 0 0 2rem 0;
-    color: #2c3e50;
+    color: light-dark(#2c3e50, #fff);
   }
 
   .participants-grid {

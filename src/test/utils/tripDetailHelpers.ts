@@ -328,7 +328,7 @@ export function createPersonCardHTML(participants: TripParticipant[]): string {
 
   return `
     <section class="trip-participants">
-      <h2 class="participants-title">Travel Companions</h2>
+      <h2 class="participants-title">Meet the team</h2>
       <div class="participants-grid">
         ${participantsHTML}
       </div>

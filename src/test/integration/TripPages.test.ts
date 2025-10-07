@@ -139,13 +139,13 @@ function simulateTripPageRender(trip: CollectionEntry<'trips'>) {
 
           <!-- Participants -->
           <section class="trip-participants">
-            <h2>Travel Companions</h2>
+            <h2>Meet the team</h2>
             <div class="participants-grid">
               ${data.participants.map((participant, index) => 
                 `<div class="person-card" data-index="${index}">
                   <div class="person-avatar">
                     ${participant.photo ? 
-                      `<img src="${participant.photo}" alt="Photo of ${participant.name}" class="avatar-image" />` :
+                      `<Image src="${participant.photo}" alt="Photo of ${participant.name}" class="avatar-image" />` :
                       `<div class="avatar-fallback">${participant.name.split(' ').map(n => n[0]).join('').toUpperCase()}</div>`
                     }
                   </div>

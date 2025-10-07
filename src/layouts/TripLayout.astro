@@ -45,14 +45,14 @@ const { title, description, image, tripSlug } = Astro.props;
       </section>
 
       <!-- Trip Stats Section (when using separate layout) -->
-      <section class="trip-section trip-stats-section">
+      <!-- <section class="trip-section trip-stats-section">
         <slot name="stats" />
-      </section>
+      </section> -->
 
       <!-- Trip Map Section (when using separate layout) -->
-      <section class="trip-section trip-map-section">
+      <!-- <section class="trip-section trip-map-section">
         <slot name="map" />
-      </section>
+      </section> -->
 
       <!-- Trip Gallery Section -->
       <!-- <section class="trip-section trip-gallery-section">
@@ -172,14 +172,14 @@ const { title, description, image, tripSlug } = Astro.props;
 
   .trip-activities-section {
     padding: 2rem 1rem;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .trip-participants-section {
     /* padding: 1rem 1rem; */
-    background-color: #f9fafb;
+    background-color: light-dark(#f9fafb, transparent);
     /* max-width: 1200px; */
     width: 100%;
     margin: 0 auto;
@@ -197,13 +197,13 @@ const { title, description, image, tripSlug } = Astro.props;
   }
 
   /* Section headers styling (for when components add their own headers) */
-  .trip-section :global(h2) {
+  /* .trip-section :global(h2) {
     font-size: 1.875rem;
     font-weight: 700;
     color: #1f2937;
     margin: 0 0 1.5rem 0;
     text-align: center;
-  }
+  } */
 
   .trip-section :global(h3) {
     font-size: 1.5rem;

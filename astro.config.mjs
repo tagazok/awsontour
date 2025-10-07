@@ -1,9 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import contentValidation from './src/integrations/contentValidation.ts';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://tagazok.github.io',
+  base: '/awsontour',
   // Content validation runs via prebuild script
   // integrations: [
   //   contentValidation({

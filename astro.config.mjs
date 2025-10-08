@@ -3,8 +3,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tagazok.github.io',
-  base: '/awsontour/',
+  site: 'https://awsontour.com',
   // Content validation runs via prebuild script
   // integrations: [
   //   contentValidation({

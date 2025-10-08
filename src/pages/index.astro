@@ -65,7 +65,7 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
             <div class="current-trip-info">
               <h3>We are on the road!</h3>
               <p>We are currently on a journey to meet developers! Check out the details and follow along with the team.</p>
-              <a href={`/awsontour/trips/${currentTrip.slug}`} class="cta-button">
+              <a href={`/trips/${currentTrip.slug}`} class="cta-button">
                 View Trip
               </a>
             </div>
@@ -332,59 +332,5 @@ if (currentTrip && !criticalImages.some(img => img.src === currentTrip.data.head
 </style>
 
 <script>
-  // Client-side filtering and sorting functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const sortSelect = document.getElementById('trip-sort') as HTMLSelectElement;
-    const tripGrid = document.getElementById('trip-grid');
-    const tripItems = document.querySelectorAll('.trip-grid-item') as NodeListOf<HTMLElement>;
 
-    // Filter functionality
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const filter = button.getAttribute('data-filter');
-        
-        tripItems.forEach(item => {
-          const status = item.getAttribute('data-status');
-          const shouldShow = filter === 'all' || status === filter;
-          
-          if (shouldShow) {
-            item.classList.remove('hidden');
-          } else {
-            item.classList.add('hidden');
-          }
-        });
-      });
-    });
-
-    // Sort functionality
-    sortSelect.addEventListener('change', () => {
-      const sortValue = sortSelect.value;
-      const itemsArray = Array.from(tripItems);
-      
-      itemsArray.sort((a, b) => {
-        switch (sortValue) {
-          case 'date-asc':
-            return new Date(a.getAttribute('data-date')!).getTime() - 
-                   new Date(b.getAttribute('data-date')!).getTime();
-          case 'date-desc':
-            return new Date(b.getAttribute('data-date')!).getTime() - 
-                   new Date(a.getAttribute('data-date')!).getTime();
-          case 'title':
-            return a.getAttribute('data-title')!.localeCompare(b.getAttribute('data-title')!);
-          default:
-            return 0;
-        }
-      });
-
-      // Reorder DOM elements
-      itemsArray.forEach(item => {
-        tripGrid?.appendChild(item);
-      });
-    });
-  });
 </script>

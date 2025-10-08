@@ -10,7 +10,7 @@ export interface Props {
 const {
   title = "AWS On Tour",
   description = "Explore amazing travel experiences and adventures around the world",
-  image = "/favicon.svg",
+  image = "/favicon.png",
   canonical = Astro.url.href,
   bodyClass = ""
 } = Astro.props;
@@ -23,7 +23,7 @@ const siteTitle = title === "AWS On Tour" ? title : `${title} | AWS On Tour`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
     
     <!-- Performance optimizations -->

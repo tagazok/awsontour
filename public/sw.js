@@ -10,7 +10,7 @@ const IMAGE_CACHE = 'images-v1';
 const STATIC_ASSETS = [
   '/',
   '/trips',
-  '/favicon.svg',
+  '/favicon.png',
   // Add other critical assets here
 ];
 
@@ -161,8 +161,8 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
       self.registration.showNotification(data.title, {
         body: data.body,
-        icon: '/favicon.svg',
-        badge: '/favicon.svg',
+        icon: '/favicon.png',
+        badge: '/favicon.png',
         tag: 'travel-notification'
       })
     );

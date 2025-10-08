@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Who we are"
+  description="The Developer Experience team. Who we are, what we do."
+>
+  <div class="container">
+    <div class="description">
+      <p>
+        We are the <strong>AWS Developer Relations team</strong>, part of the <strong
+          >Developer Experience organization</strong
+        >. <br />
+        Our mission is to connect with developers where they are — in schools, at
+        meetups, and within local communities — to share knowledge, spark curiosity,
+        and help builders bring their ideas to life.<br />
+        Through talks, workshops, and hands-on experiences, we aim to make cloud
+        innovation accessible, practical, and human.
+      </p>
+      <p>
+        From city to city, we bring stories, code, and a genuine love for
+        building — because technology moves fast, but <strong
+          >people build the future together.</strong
+        >
+      </p>
+    </div>
+    <p>
+        <!-- —— -->
+         <img class="logo" src="images/community-logo.png" alt="AWS Communities logo" />
+    </p>
+    <div class="poem">
+      <h2>The Road We Build</h2>
+      <ul>
+        <li>Meet developers.</li>
+        <li>Share knowledge.</li>
+        <li>Build together.</li>
+      </ul>
+      <ul>
+        <li>Code speaks louder than slides.</li>
+        <li>Every line tells a story.</li>
+        <li>Every workshop sparks a connection.</li>
+        <li>Every meetup plants a seed.</li>
+      </ul>
+      <ul>
+        <li>Communities don’t scale — they grow.</li>
+        <li>They grow through people.</li>
+        <li>And we just help them build roots.</li>
+      </ul>
+      Learning never stops.
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 3rem auto 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+
+    .description, .poem {
+      margin-bottom: 3rem;
+    }
+
+    img.logo {
+        width: 400px;
+        height: auto;
+        max-width: 50%;
+        margin: 2rem 0;
+    }
+    .poem {
+        margin-top: 3rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      /* margin: 0; */
+    }
+
+    li {
+      margin: 0;
+    }
+  }
+</style>

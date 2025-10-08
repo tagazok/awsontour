@@ -35,7 +35,7 @@ export interface TripParticipant {
   role?: string;
 }
 
-export type TripStatus = 'completed' | 'current' | 'planned';
+export type TripStatus = 'completed' | 'current' | 'planned' | 'hidden';
 
 export interface Trip {
   title: string;

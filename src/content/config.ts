@@ -5,7 +5,7 @@ const tripSchema = z.object({
   description: z.string(),
   startDate: z.date(),
   endDate: z.date(),
-  status: z.enum(['completed', 'current', 'planned']),
+  status: z.enum(['completed', 'current', 'planned', 'hidden']),
   headerImage: z.string(),
   stats: z.array(z.object({
     id: z.string(),

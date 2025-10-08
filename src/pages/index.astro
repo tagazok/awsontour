@@ -6,9 +6,12 @@ import { generatePreloadLinks } from '../utils/imageOptimization';
 
 // Get all trips and sort them by start date (most recent first)
 const allTrips = await getCollection('trips');
-const sortedTrips = allTrips.sort((a, b) => 
+let sortedTrips = allTrips.sort((a, b) => 
   new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
 );
+
+// Filter out hidden trips
+sortedTrips = sortedTrips.filter(trip => trip.data.status !== 'hidden');
 
 // Find current trip (if any)
 const now = new Date();

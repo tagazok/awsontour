@@ -1,10 +1,10 @@
 ---
-title: "West France Autumn 2025"
-description: "Bordeaux, Nantes, Rennes, Paris"
-startDate: 2025-09-15
-endDate: 2025-09-19
-status: "completed"
-headerImage: "/images/trips/fall-2025/header.jpg"
+title: "re:Invent re:Cap 2026"
+description: "From Vegas to France - re:Cap tour"
+startDate: 2026-01-24
+endDate: 2025-02-08
+status: "hidden"
+headerImage: "/images/trips/recap-2026/header.png"
 stats:
   - id: "distance"
     value: 808
@@ -12,19 +12,19 @@ stats:
     icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>'
     unit: "km"
   - id: "duration"
-    value: 5
+    value: 2
     label: "on the road"
     icon: '<circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline>'
-    unit: "days"
+    unit: "weeks"
   - id: "activities"
-    value: 9
+    value: 18
     label: "Activities"
     icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>'
   - id: "schools"
-    value: 5
-    label: "visited"
+    value: 0
+    label: "x"
     icon: '<circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline>'
-    unit: "schools"
+    unit: "x"
 route:
   coordinates:
     - [44.8637712,-0.6272974] # Bordeaux
@@ -113,16 +113,10 @@ activities:
     isPublic: false
     image: "/images/trips/fall-2025/events/epitech-bordeaux.jpeg"
 participants:
+  - name: "Natalia Stones"
+    photo: "/images/people/stonesna.png"
+    role: "Community Program Manager"
   - name: "Olivier Leplus"
     photo: "/images/people/oleplus.png"
-    role: "Developer Advoate"
-  - name: "Romain Jourdan"
-    photo: "/images/people/romjour.png"
-    role: "Developer Advoate"
-  - name: "Sebastien Stormacq"
-    photo: "/images/people/stormacq.png"
-    role: "Developer Advoate"
-  - name: "Tiffany Souterre"
-    photo: "/images/people/souterre.png"
     role: "Developer Advoate"
 ---

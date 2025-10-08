@@ -217,7 +217,7 @@ const siteTitle = title === "AWS On Tour" ? title : `${title} | AWS On Tour`;
 
   .site-header.scrolled {
     background-color: light-dark(rgba(255, 255, 255, 0.95), #1f2937);
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgba(255 255 255 / .1);
   }
 
   /* White text for overlay header */
@@ -320,7 +320,8 @@ const siteTitle = title === "AWS On Tour" ? title : `${title} | AWS On Tour`;
   
   /* Footer Styles */
   .site-footer {
-    background-color: #1f2937;
+    border-top: solid 1px rgba(0 0 0 / .2);
+    background-color: #19212d;
     color: #ffffff;
     margin-top: auto;
   }
@@ -532,6 +533,45 @@ const siteTitle = title === "AWS On Tour" ? title : `${title} | AWS On Tour`;
           navToggle.setAttribute('aria-expanded', 'false');
         }
       });
+    }
+  });
+</script>
+
+<script>
+	console.log("coucou");
+  // Handle header transparency on scroll for full viewport trip pages
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.site-header');
+    // const tripHeader = document.querySelector('.trip-header');
+    
+    if (header) {
+      let ticking = false;
+      
+      const updateHeader = () => {
+        console.log("updateHeader");
+        const scrollY = window.scrollY;
+        // const tripHeaderHeight = tripHeader.offsetHeight;
+        
+        // Add scrolled class when scrolled past 50% of trip header
+        if (scrollY > 1) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        ticking = false;
+      };
+      
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateHeader);
+          ticking = true;
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial check
+      updateHeader();
     }
   });
 </script>

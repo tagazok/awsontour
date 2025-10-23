@@ -120,10 +120,10 @@ const shouldUseSideBySideLayout = visibleStats.length < 5;
   />
 
   <!-- Additional Content (Markdown) -->
-  <!-- <div class="trip-markdown-content">
-    <h2>About This Trip</h2>
+  <div class="trip-markdown-content">
+    <!-- <h2>About This Trip</h2> -->
     <Content />
-  </div> -->
+  </div>
 </TripLayout>
 
 <style>
@@ -217,29 +217,28 @@ const shouldUseSideBySideLayout = visibleStats.length < 5;
 
   /* Markdown Content Styles */
   .trip-markdown-content {
-    max-width: 800px;
+    /* max-width: 800px; */
     margin: 0 auto;
     padding: 2rem 1rem;
     line-height: 1.7;
+    color: #fff;
   }
 
-  .trip-markdown-content h2 {
+  /* .trip-markdown-content h2 {
     font-size: 1.875rem;
     font-weight: 700;
-    color: #1f2937;
     margin: 0 0 1.5rem 0;
     text-align: center;
-  }
+  } */
 
-  .trip-markdown-content :global(h1),
+  /* .trip-markdown-content :global(h1),
   .trip-markdown-content :global(h2),
   .trip-markdown-content :global(h3) {
-    color: #1f2937;
     font-weight: 700;
     margin: 2rem 0 1rem 0;
-  }
+  } */
 
-  .trip-markdown-content :global(h1) {
+  /* .trip-markdown-content :global(h1) {
     font-size: 2rem;
   }
 
@@ -249,11 +248,10 @@ const shouldUseSideBySideLayout = visibleStats.length < 5;
 
   .trip-markdown-content :global(h3) {
     font-size: 1.25rem;
-  }
+  } */
 
   .trip-markdown-content :global(p) {
     margin: 1rem 0;
-    color: #374151;
   }
 
   .trip-markdown-content :global(ul),

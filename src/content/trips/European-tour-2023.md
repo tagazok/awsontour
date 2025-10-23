@@ -70,53 +70,102 @@ gallery:
 activities:
   - name: "AWS User Group Barcelona"
     location: "Barcelona, Spain"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-10-06
     registrationUrl: "https://www.meetup.com/barcelona-amazon-web-services-meetup/events/295672224/"
     isPublic: true
     image: "/images/trips/tour-2023/events/barcelona.jpg"
+  - name: "AWS On Tour"
+    location: "Barcelona, Spain"
+    description: ""
+    date: 2023-10-06
+    registrationUrl: "https://app.splashthat.com/events/awsontour-barcelona/overview"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/barcelona-wc.jpg"
   - name: "AWS User Group Lyon"
     location: "Lyon, France"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-10-04
     registrationUrl: "https://www.meetup.com/aws-lyon-amazon-web-services-user-group/events/295732348/"
     isPublic: true
     image: "/images/trips/tour-2023/events/lyon.jpg"
+  - name: "AWS On Tour"
+    location: "Lyon, France"
+    description: ""
+    date: 2023-10-04
+    registrationUrl: "https://app.splashthat.com/events/awsontour-lyon/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/lyon-wc.jpg"
   - name: "AWS User Group Milan"
     location: "Milan, Italy"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-10-02
     registrationUrl: "https://www.meetup.com/awsusergroupmilano/events/295954321/"
     isPublic: true
     image: "/images/trips/tour-2023/events/milan.jpg"
+  - name: "AWS On Tour"
+    location: "Milan, Italy"
+    description: ""
+    date: 2023-10-02
+    registrationUrl: "https://app.splashthat.com/events/awsontour-milan/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/milan-wc.jpg"
   - name: "AWS User Group Zürich"
     location: "Zürich, Switzerland"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-09-29
     registrationUrl: "https://www.meetup.com/aws-swiss-user-group-zurich/events/296107551/"
     isPublic: true
     image: "/images/trips/tour-2023/events/zurich.jpg"
+  - name: "AWS On Tour"
+    location: "Zürich, Switzerland"
+    description: ""
+    date: 2023-09-29
+    registrationUrl: "https://app.splashthat.com/events/awsontour-zurich/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/zurich-wc.jpg"
   - name: "AWS User Group Frankfurt"
     location: "Frankfurt, Germany"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-09-27
     registrationUrl: "https://www.meetup.com/fra_aws/events/296039110/"
     isPublic: true
     image: "/images/trips/tour-2023/events/frankfurt.jpg"
+  - name: "AWS User Group Frankfurt"
+    location: "Frankfurt, Germany"
+    description: ""
+    date: 2023-09-27
+    registrationUrl: "https://app.splashthat.com/events/awsontour-frankfurt/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/frankfurt-wc.jpg"
   - name: "AWS User Group Amsterdam"
     location: "Amsterdam, Netherland"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-09-25
     registrationUrl: "https://www.meetup.com/awsugnl/events/295597098/"
     isPublic: true
     image: "/images/trips/tour-2023/events/amsterdam.jpg"
+  - name: "AWS On Tour"
+    location: "Amsterdam, Netherland"
+    description: ""
+    date: 2023-09-25
+    registrationUrl: "https://app.splashthat.com/events/awsontour-amsterdam/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/amsterdam-wc.jpg"
   - name: "AWS User Group Brussels"
     location: "Brussels, Belgium"
-    description: "Guided hike on Sólheimajökull glacier with crampons and ice axes"
+    description: ""
     date: 2023-09-21
     registrationUrl: "https://www.meetup.com/aws-user-group-belgium/events/295908955/"
     isPublic: true
     image: "/images/trips/tour-2023/events/brussels.jpg"
+  - name: "AWS On Tour"
+    location: "Brussels, Belgium"
+    description: ""
+    date: 2023-09-21
+    registrationUrl: "https://app.splashthat.com/events/awsontour-barcelona/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/brussels-wc.jpg"
   - name: AWS User Group Paris"
     location: "Paris, France"
     description: "Learn to capture the aurora borealis with professional techniques"
@@ -124,13 +173,27 @@ activities:
     registrationUrl: "https://www.meetup.com/french-aws-ug/events/296035051/"
     isPublic: true
     image: "/images/trips/tour-2023/events/paris.jpg"
+  - name: AWS User Group Paris"
+    location: "Paris, France"
+    description: "Learn to capture the aurora borealis with professional techniques"
+    date: 2023-09-20
+    registrationUrl: "https://app.splashthat.com/events/awsontour-paris/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/paris-wc.jpg"
   - name: "AWS User Group London"
     location: "London, United Kingdon"
-    description: "Boat tour from Husavik to spot humpback and minke whales"
+    description: ""
     date: 2023-09-18
     registrationUrl: "https://www.meetup.com/awsuguk/events/295611434/"
     isPublic: true
     image: "/images/trips/tour-2023/events/london.jpg"
+  - name: "AWS User Group London"
+    location: "London, United Kingdon"
+    description: ""
+    date: 2023-09-18
+    registrationUrl: "https://app.splashthat.com/events/awsontour-london/content/event-page"
+    isPublic: true
+    image: "/images/trips/tour-2023/events/london-wc.jpg"
 participants:
   - name: "Ana Cunha"
     photo: "/images/people/anacunha.png"
@@ -185,14 +248,134 @@ participants:
     role: "Developer Advocate"
 ---
 
-# Iceland Adventure: Ring Road Journey
+<style>
+  .agenda {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 auto;
 
-Our incredible journey around Iceland's Ring Road took us through some of the most breathtaking landscapes on Earth. From the powerful waterfalls of the south coast to the otherworldly glacier lagoons of the east, every day brought new wonders.
+    .talk-description {
+      font-size: .8rem;
+    }
+  }
+  @media (max-width: 700px) {
+    .agenda {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
 
-## Highlights
+<center>
+<h2>Agenda</h2>
+</center>
 
-The trip was filled with unforgettable moments, from walking behind Seljalandsfoss waterfall to witnessing the Northern Lights dance across the sky. The contrast between fire and ice was evident everywhere - from black volcanic beaches to pristine glaciers.
+<div class="agenda"">
+  <div>
+    <strong>08:30AM – 09:00AM</strong><br>
+  </div>
+  <div>
+    <strong>Welcome</strong>
+  </div>
 
-## Weather and Conditions
+  <div>
+    <strong>09:00AM – 09:30AM</strong><br>
+  </div>
+  <div>
+    <strong>Work with AWS right from your IDE</strong>
+    <div class="talk-description">
+    Let's talk about how AWS can help you be a more productive developer. As software developers, you are always asked to do more with less. You need to ditch every impediments that slow down your flow, every context switch that hurts your productivity. The AWS Toolkit helps to stay focused in your favorite IDE. You can access your AWS services, you can deploy to AWS to test your project in minutes without having deep knowledge on infrastructure as code.
+    </div>
+  </div>
 
-June proved to be an excellent time to visit, with long daylight hours and relatively mild weather. The midnight sun allowed us to explore well into the evening, maximizing our time at each location.
+  <div>
+    <strong>10:00AM - 10:30AM</strong><br>
+  </div>
+  <div>
+    <strong>Get to Production Fast with Pre-Integrated DevOps using Amazon CodeCatalyst</strong>
+    <div class="talk-description">
+    Software developers spend a significant amount of time orchestrating tools, technologies, processes, and people in order to build and deliver modern applications. Amazon CodeCatalyst brings together everything software development teams need to plan, code, build, test, and deploy applications on AWS into a streamlined, integrated experience. In this session, you will see how to leverage development environments through CodeCatalyst using integrated development environments (IDE) and to rapidly build applications and orchestrate deployments using blueprints.
+    </div>
+  </div>
+
+  <div>
+    <strong>10:30AM - 11:00AM</strong><br>
+  </div>
+  <div>
+    <strong>Break</strong>
+  </div>
+
+  <div>
+    <strong>11:00AM - 12:00PM</strong><br>
+  </div>
+  <div>
+    <strong>Build a full-Stack application without being an architect</strong>
+    <div class="talk-description">
+    Unlock the potential of full-stack development with AWS Amplify! Join us to explore how developers can effortlessly create robust applications without delving into architectural complexities. Streamline frontend design, backend deployment, and more – all while focusing on your code. Elevate your skills and build with confidence.
+    </div>
+  </div>
+
+  <div>
+    <strong>12:00AM - 01:00PM</strong>
+  </div>
+  <div>
+    <strong>Lunch</strong>
+  </div>
+
+  <div>
+    <strong>01:00PM - 02:00PM</strong>
+  </div>
+  <div>
+    <strong>Improve your productivity with the little help of an AI companion</strong>
+    <div class="talk-description">
+    Generative AI is becoming more present in our day to day lives. It can also help you with your code. In this session, we are going to talk about CodeWhisperer, an AI pair-programming tool that can help you code faster and more efficiently. We will see how to get started with it and have an overview of its different features.
+    </div>
+  </div>
+
+  <div>
+    <strong>02:00PM - 02:30PM</strong>
+  </div>
+  <div>
+    <strong>Break</strong>
+  </div>
+
+  <div>
+    <strong>02:30PM - 03:30PM</strong>
+  </div>
+  <div>
+    <strong>Not a Data Scientist? No Problem! Level Up Your Apps With AWS AI Services!</strong>
+    <div class="talk-description">
+    In this talk, we showcase various ways of using AI to make your application smarter without needing knowledge of data science! With the power of AWS, we will add smart capabilities to our text adventure game one by one making it smarter with every step!
+    </div>
+  </div>
+
+  <div>
+    <strong>03:30PM - 04:00PM</strong>
+  </div>
+  <div>
+    <strong>Break</strong>
+  </div>
+
+  <div>
+    <strong>04:00PM - 05:00PM</strong>
+  </div>
+  <div>
+    <strong>Hands on with Amazon Bedrock</strong>
+    <div class="talk-description">
+    Navigating AI application development can be intricate. This hands-on session unlocks the power of Amazon Bedrock, the easiest way to build and scale generative AI applications with foundation models. Through live coding demonstrations we will build image and text generation applications, including a dialogue based conversational tool. We will leverage Amazon CodeWhisperer for live code recommendations, to accelerate the application building process. Ideal for developers and AI enthusiasts, this immersive session provides practical experience in leveraging Amazon Bedrock.
+    </div>
+  </div>
+
+  <div>
+    <strong>05:00PM - 05:30PM</strong>
+  </div>
+  <div>
+    <strong>Closing</strong>
+    <div>
+    </div>
+  </div>
+
+  
+</div>

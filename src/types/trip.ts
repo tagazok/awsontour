@@ -18,6 +18,9 @@ export interface TripGalleryItem {
   image: string;
   title?: string;
   description?: string;
+  date?: string;
+  location?: string;
+  orientation?: 'portrait' | 'landscape';
 }
 
 export interface TripActivity {

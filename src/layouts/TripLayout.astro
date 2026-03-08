@@ -59,10 +59,16 @@ const { title, description, image, tripSlug } = Astro.props;
         <slot name="gallery" />
       </section> -->
 
+      <!-- Gallery Above Activities (for completed trips) -->
+      <slot name="gallery-above-activities" />
+
       <!-- Trip Activities Section -->
       <section class="trip-section trip-activities-section">
         <slot name="activities" />
       </section>
+
+      <!-- Gallery Between Activities and Participants (for non-completed trips) -->
+      <slot name="gallery-between-activities-participants" />
 
       <!-- Trip Participants Section -->
       <section class="trip-section trip-participants-section">

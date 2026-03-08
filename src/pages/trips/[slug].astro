@@ -4,7 +4,7 @@ import TripLayout from '../../layouts/TripLayout.astro';
 import TripHeader from '../../components/TripHeader.astro';
 import TripStats from '../../components/TripStats.astro';
 import TripMap from '../../components/TripMap.astro';
-import TripGallery from '../../components/TripGallery.astro';
+import PhotoGallery from '../../components/PhotoGallery.astro';
 import ActivityCard from '../../components/ActivityCard.astro';
 import PersonCard from '../../components/PersonCard.astro';
 
@@ -100,12 +100,22 @@ const shouldUseSideBySideLayout = visibleStats.length < 5;
     </>
   )}
 
-  <!-- Trip Gallery Section -->
-  <TripGallery 
-    slot="gallery"
-    gallery={data.gallery}
-    tripTitle={data.title}
-  />
+  <!-- Trip Gallery Section (conditional placement based on trip status) -->
+  {data.gallery && data.gallery.length > 0 && (
+    data.status === 'completed' ? (
+      <PhotoGallery
+        slot="gallery-above-activities"
+        gallery={data.gallery}
+        tripTitle={data.title}
+      />
+    ) : (
+      <PhotoGallery
+        slot="gallery-between-activities-participants"
+        gallery={data.gallery}
+        tripTitle={data.title}
+      />
+    )
+  )}
 
   <!-- Trip Activities Section -->
   <ActivityCard 

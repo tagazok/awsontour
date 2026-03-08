@@ -24,7 +24,10 @@ const tripSchema = z.object({
   gallery: z.array(z.object({
     image: z.string(),
     title: z.string().optional(),
-    description: z.string().optional()
+    description: z.string().optional(),
+    date: z.string().optional(),
+    location: z.string().optional(),
+    orientation: z.enum(['portrait', 'landscape']).optional()
   })),
   activities: z.array(z.object({
     name: z.string(),

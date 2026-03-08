@@ -6,13 +6,16 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run"
   },
   "dependencies": {
     "astro": "^5.14.1",
     "leaflet": "^1.9.4"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.20"
+    "@types/leaflet": "^1.9.20",
+    "fast-check": "^4.5.3",
+    "vitest": "^4.0.18"
   }
 }

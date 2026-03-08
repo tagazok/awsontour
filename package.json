@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "bash scripts/generate-thumbnails.sh && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "thumbnails": "bash scripts/generate-thumbnails.sh",
     "test": "vitest run"
   },
   "dependencies": {

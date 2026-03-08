@@ -66,6 +66,13 @@ function packGrid(items: TripGalleryItem[]): TripGalleryItem[] {
   return result;
 }
 
+// Helper to compute thumbnail path: insert /thumbs/ before the filename
+function thumbUrl(imagePath: string): string {
+  const lastSlash = imagePath.lastIndexOf('/');
+  if (lastSlash === -1) return imagePath;
+  return imagePath.substring(0, lastSlash) + '/thumbs' + imagePath.substring(lastSlash);
+}
+
 const displayGallery = packGrid(shuffle(gallery));
 ---
 
@@ -84,7 +91,7 @@ const displayGallery = packGrid(shuffle(gallery));
             aria-label={item.title || `${tripTitle} photo ${index + 1}`}
           >
             <img
-              src={item.image}
+              src={thumbUrl(item.image)}
               alt={item.title || `${tripTitle} photo ${index + 1}`}
               class="gallery-thumbnail__image"
               loading="lazy"
@@ -102,7 +109,7 @@ const displayGallery = packGrid(shuffle(gallery));
             class:list={['gallery-thumbnail', `gallery-thumbnail--${orientation}`]}
           >
             <img
-              src={item.image}
+              src={thumbUrl(item.image)}
               alt=""
               class="gallery-thumbnail__image"
               loading="lazy"
